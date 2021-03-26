@@ -59,11 +59,10 @@ public class Search {
      */
     public void start() {
         Thread thread = new Thread(()-> {
-            while (!open_list.isEmpty() && !current_node.equals(end_node)) { // if open list isn't empty or goal node isn't reached
+            while (!open_list.isEmpty() && !current_node.equals(end_node)) { // open list isn't empty or goal node isn't reached
                 current_node = open_list.peek();
                 // remove the node with lowest f score
                 open_list.remove(open_list.peek());
-                // tile_grid[current_node.getRow()][current_node.getCol()].setBackground(Color.RED);
                 System.out.println("open list: " + open_list);
                 // check if current node is goal node
                 if (current_node.equals(end_node)) {
@@ -97,8 +96,8 @@ public class Search {
                         assert open_list.peek() != null;
                         System.out.println("open_list lowest f: " + open_list.peek().getF());
                     } catch (NullPointerException e){
-                        System.out.println("A path could not be found!");
-                        JOptionPane.showMessageDialog(frame, "A path could not be found!");
+                        System.out.println("No path could be found");
+                        JOptionPane.showMessageDialog(frame, "No path could be found");
                     }
 
                     // add current node to closed list
@@ -106,7 +105,6 @@ public class Search {
                     System.out.println("\n-----new current node-----\n");
 
                 }
-
             }
         });
         thread.start();
