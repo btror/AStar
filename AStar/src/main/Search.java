@@ -6,21 +6,20 @@ import java.util.*;
 
 public class Search {
 
-    private Node[][] grid = new Node[15][15];
-    private PriorityQueue<Node> open_list = new PriorityQueue<Node>(10, new NodeComparator()); // sorted by f value
-    private ArrayList<Node> closed_list = new ArrayList<>();
-    private JPanel[][] tile_grid;
-    private int counter = 0;
+    private final Node[][] grid = new Node[15][15];
+    private final PriorityQueue<Node> open_list = new PriorityQueue<>(10, new NodeComparator()); // sorted by f value
+    private final ArrayList<Node> closed_list = new ArrayList<>();
+    private final JPanel[][] tile_grid;
 
-    private Node start_node;
+    private final Node start_node;
     private Node current_node;
-    private Node end_node;
+    private final Node end_node;
 
-    private JFrame frame;
+    private final JFrame frame;
 
-    // f = g + h
-    // h = distance from end coordinate
-    // g = distance from start
+    /*
+     * Default constructor
+     */
     public Search(JFrame window, JPanel[][] tiles, int[] startCoordinate, int[] endCoordinate) {
         frame = window;
         tile_grid = tiles;
@@ -53,6 +52,7 @@ public class Search {
         open_list.add(current_node);
         System.out.println("start open list: " + open_list.peek());
     }
+
 
     /*
      * Method that starts the A* search
@@ -94,6 +94,7 @@ public class Search {
                     tile_grid[start_node.getRow()][start_node.getCol()].setBackground(Color.GREEN);
                     tile_grid[end_node.getRow()][end_node.getCol()].setBackground(Color.RED);
                     try {
+                        assert open_list.peek() != null;
                         System.out.println("open_list lowest f: " + open_list.peek().getF());
                     } catch (NullPointerException e){
                         System.out.println("A path could not be found!");
@@ -109,7 +110,6 @@ public class Search {
             }
         });
         thread.start();
-
     }
 
 
@@ -125,13 +125,13 @@ public class Search {
 
         Node parent = node.getParent();
         if (parent == null) {
-            int xDistance = 0;
+            int xDistance;
             if (col > current_node.getCol()) {
                 xDistance = col - current_node.getCol();
             } else {
                 xDistance = current_node.getCol() - col;
             }
-            int yDistance = 0;
+            int yDistance;
             if (row > current_node.getRow()) {
                 yDistance = row - current_node.getRow();
             } else {
@@ -238,6 +238,10 @@ public class Search {
         }
     }
 
+
+    /*
+     * Method that creates an arraylist containing the path
+     */
     public ArrayList<Node> generatePath() {
         ArrayList<Node> path = new ArrayList<>();
         // get the parent nodes
@@ -249,8 +253,6 @@ public class Search {
         }
         return path;
     }
-
-
 }
 
 
